@@ -11,6 +11,7 @@
  */
 
 import express, { NextFunction, Request, Response } from "express";
+import { timingSafeEqual } from "node:crypto";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 
@@ -48,7 +49,7 @@ function log(
 function bearerAuth(req: Request, res: Response, next: NextFunction): void {
   const header = req.header("authorization") ?? "";
   const match = /^Bearer\s+(.+)$/i.exec(header);
-  if (!match || match[1] !== config.authToken) {
+  if (!match || !secretMatches(match[1])) {
     log("warn", "rejected unauthenticated MCP request", {
       ip: req.ip,
       path: req.path,
@@ -57,6 +58,26 @@ function bearerAuth(req: Request, res: Response, next: NextFunction): void {
       error: "unauthorized",
       message: "Missing or invalid Bearer token",
     });
+    return;
+  }
+  next();
+}
+
+function secretMatches(candidate: string): boolean {
+  const a = Buffer.from(candidate);
+  const b = Buffer.from(config.authToken);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
+/**
+ * Path-secret auth for clients that cannot send custom headers
+ * (e.g. claude.ai custom connectors): POST /mcp/<AUTH_TOKEN>.
+ */
+function pathSecretAuth(req: Request, res: Response, next: NextFunction): void {
+  const secret = String(req.params.secret ?? "");
+  if (!secretMatches(secret)) {
+    log("warn", "rejected MCP request with invalid path secret", { ip: req.ip });
+    res.status(401).json({ error: "unauthorized" });
     return;
   }
   next();
@@ -101,7 +122,9 @@ async function main(): Promise<void> {
     });
   }
 
-  app.post("/mcp", bearerAuth, async (req, res) => {
+  app.post(["/mcp", "/mcp/:secret"], (req, res, next) =>
+    req.params.secret ? pathSecretAuth(req, res, next) : bearerAuth(req, res, next),
+  async (req, res) => {
     const transport = new StreamableHTTPServerTransport({
       sessionIdGenerator: undefined,
       enableJsonResponse: true,
