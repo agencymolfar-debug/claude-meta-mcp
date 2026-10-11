@@ -1,0 +1,59 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
+:root{--bg:#F3EFE8;--ink:#15171C;--muted:#5B5F68;--line:#E2DBCF;--accent:#D8603A;--card:#FFFFFF}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.container{max-width:1120px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;background:rgba(243,239,232,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);z-index:5}
+.nav{display:flex;justify-content:space-between;align-items:center;height:68px}
+.logo{font-weight:700;letter-spacing:.12em;text-transform:uppercase;font-size:15px;text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo i{width:10px;height:10px;border-radius:50%;background:var(--accent);display:inline-block}
+.nav nav{display:flex;gap:28px;font-size:15px}
+.nav nav a{text-decoration:none;color:var(--muted)}
+.nav nav a:hover{color:var(--ink)}
+.btn{display:inline-block;background:var(--ink);color:var(--bg);text-decoration:none;font-weight:600;padding:16px 26px;border-radius:999px;font-size:16px}
+.btn.ghost{background:transparent;color:var(--ink);border:2px solid var(--ink)}
+.hero{padding-top:96px;padding-bottom:80px}
+.eyebrow{color:var(--muted);font-weight:500;margin-bottom:20px}
+h1{font-size:clamp(40px,7vw,84px);line-height:1.02;letter-spacing:-.035em;font-weight:800;max-width:900px}
+h1 em{font-style:normal;color:var(--accent)}
+.lead{font-size:20px;color:var(--muted);max-width:640px;margin:28px 0 36px}
+.cta{display:flex;gap:14px;flex-wrap:wrap}
+.flow{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:56px;font-weight:600}
+.flow span{padding:12px 20px;border:2px solid var(--ink);border-radius:999px;background:var(--card)}
+.flow span:last-child{background:var(--ink);color:var(--bg)}
+.flow b{color:#8A8D94;font-weight:400}
+section{padding:80px 0;border-top:1px solid var(--line)}
+h2{font-size:clamp(30px,4vw,44px);letter-spacing:-.025em;line-height:1.1;margin-bottom:16px;max-width:760px}
+.sub{color:var(--muted);font-size:18px;max-width:640px;margin-bottom:44px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:28px}
+.card .n{font-size:14px;color:var(--accent);font-weight:700;letter-spacing:.08em}
+.card h3{font-size:21px;margin:12px 0 8px;letter-spacing:-.01em}
+.card p{color:var(--muted);font-size:16px}
+.steps{counter-reset:s;display:grid;gap:12px}
+.step{display:grid;grid-template-columns:64px 1fr;gap:16px;align-items:start;padding:22px 0;border-bottom:1px solid var(--line)}
+.step::before{counter-increment:s;content:"0" counter(s);font-weight:700;color:var(--accent);font-size:20px}
+.step h3{font-size:20px;margin-bottom:4px}
+.step p{color:var(--muted)}
+.contact{background:var(--ink);color:var(--bg);border-radius:28px;padding:56px 40px;display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));align-items:center}
+.contact h2{color:var(--bg)}
+.contact p{color:#B9BBC1}
+.contact .btn{background:var(--accent);color:#fff}
+.contact dl{display:grid;gap:10px;font-size:17px}
+.contact dt{color:#8A8D94;font-size:13px;text-transform:uppercase;letter-spacing:.1em}
+.contact dd a{text-decoration:none}
+footer{padding:48px 0 56px;color:var(--muted);font-size:14px}
+.foot{display:grid;gap:28px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+footer h4{color:var(--ink);font-size:13px;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px}
+footer a{text-decoration:none}
+footer a:hover{color:var(--ink)}
+footer ul{list-style:none;display:grid;gap:6px}
+.legal{max-width:760px;padding-top:64px;padding-bottom:80px}
+.legal h1{font-size:clamp(32px,5vw,48px);margin-bottom:8px}
+.legal h2{font-size:22px;margin:36px 0 10px}
+.legal p,.legal li{color:#33363d;margin-bottom:10px}
+.legal ul,.legal ol{padding-left:22px}
+.legal hr{border:0;border-top:1px solid var(--line);margin:48px 0}
+.meta{color:var(--muted);font-size:15px}
+@media(max-width:640px){.nav nav{display:none}.hero{padding-top:64px;padding-bottom:56px}section{padding:60px 0}.contact{padding:40px 24px}}
